@@ -19,3 +19,67 @@ tasks:
     memory: 2
     cpu: 1
 
+
+  - type: create_model
+    name: XGBoost Credit Card Fraud Prediction
+    entity_label: cc_model
+    description: This model api endpoint predicts credit card fraud 
+    short_summary: Create the credit card fraud prediction model api endpoint
+    access_key_environment_variable: SHTM_ACCESS_KEY
+    default_replication_policy:
+      type: fixed
+      num_replicas: 1
+
+  - type: build_model
+    name: Credit Card Fraud Prediction Model API Endpoint
+    entity_label: cc_model
+    comment: Build credit card fraud prediction model
+    examples:
+      - request: {
+  "features": [
+    [
+      -1.35980713,
+      -0.0727811733,
+      2.53634674,
+      1.37815522,
+      -0.33832077,
+      0.462387778,
+      0.239598554,
+      0.0986979013,
+      0.36378697,
+      0.090794172,
+      -0.551599533,
+      -0.617800856,
+      -0.991389847,
+      -0.311169354,
+      1.46817697,
+      -0.470400525,
+      0.207971242,
+      0.0257905802,
+      0.40399296,
+      0.251412098,
+      -0.0183067779,
+      0.277837576,
+      -0.11047391,
+      0.0669280749,
+      0.128539358,
+      -0.189114844,
+      0.133558377,
+      -0.0210530535,
+      149.62
+    ]
+  ]
+}
+        response: 0
+    target_file_path: scripts/predict_fraud.py
+    target_function_name: predict_fraud
+    environment_variables:
+      TASK_TYPE: CREATE/BUILD/DEPLOY_MODEL
+
+  - type: deploy_model
+    name: cc_prediction_model
+    entity_label: cc_model
+    cpu: 1
+    gpu: 0
+    environment_variables:
+      TASK_TYPE: CREATE/BUILD/DEPLOY_MODEL
